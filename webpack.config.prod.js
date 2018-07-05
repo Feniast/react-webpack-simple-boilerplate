@@ -1,9 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
-process.env.BABEL_ENV = 'development';
-process.env.NODE_ENV = 'development';
+process.env.BABEL_ENV = 'production';
+process.env.NODE_ENV = 'production';
+
+const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 
 module.exports = {
   entry: {
@@ -26,7 +29,20 @@ module.exports = {
         use: [
           'style-loader',
           { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader'
+          {
+            loader: 'postcss-loader',
+            // set custom postcss plugin options here
+            /*
+            options: {
+              config: {
+                ctx: {
+                  cssnext: {},
+                  cssnano: {},
+                  autoprefixer: {}
+                }
+              }
+            } */
+          }
         ]
       },
       {
@@ -43,30 +59,16 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
+        NODE_ENV: JSON.stringify('production')
       }
     }),
+    new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       inject: true,
       template: "./public/index.html",
       filename: "index.html"
-    }),
-    new webpack.HotModuleReplacementPlugin()
+    })
   ],
-  devServer: {
-    publicPath: '/',
-    historyApiFallback: false,
-    contentBase: './public',
-    compress: true,
-    watchContentBase: true,
-    inline: true,
-    hot: true,
-    port: 8080,
-    overlay: {
-      warnings: false,
-      errors: true
-    }
-  },
-  devtool: 'cheap-module-source-map',
-  mode: 'development'
+  devtool: shouldUseSourceMap ? 'source-map' : false,
+  mode: 'production'
 }
