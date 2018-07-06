@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const utils = require('./config/utils');
 
 process.env.BABEL_ENV = 'production';
@@ -22,17 +22,23 @@ module.exports = {
   },
   module: {
     rules: [
-      { 
-        test: /\.(js|jsx)$/, 
+      {
+        test: /\.(js|jsx)$/,
+        enforce: 'pre',
+        use: 'eslint-loader',
         exclude: /node_modules/,
-        use: 'babel-loader' 
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
       },
       ...styleLoaders,
       {
         test: /\.(jpe?g|png|gif|bmp|svg)/,
         use: [
-          { 
-            loader: 'url-loader', 
+          {
+            loader: 'url-loader',
             options: {
               limit: 8192
             }
@@ -50,14 +56,14 @@ module.exports = {
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
       inject: true,
-      template: "./public/index.html",
-      filename: "index.html"
+      template: './public/index.html',
+      filename: 'index.html'
     }),
     new MiniCssExtractPlugin({
-      filename: "[name].css",
-      chunkFilename: "[id].css"
+      filename: '[name].css',
+      chunkFilename: '[id].css'
     })
   ],
   devtool: shouldUseSourceMap ? 'source-map' : false,
   mode: 'production'
-}
+};

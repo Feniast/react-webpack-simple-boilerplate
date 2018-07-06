@@ -19,17 +19,23 @@ module.exports = {
   },
   module: {
     rules: [
-      { 
-        test: /\.(js|jsx)$/, 
+      {
+        test: /\.(js|jsx)$/,
+        enforce: 'pre',
+        use: 'eslint-loader',
         exclude: /node_modules/,
-        use: 'babel-loader' 
+      },
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
       },
       ...styleLoaders,
       {
         test: /\.(jpe?g|png|gif|bmp|svg)/,
         use: [
-          { 
-            loader: 'url-loader', 
+          {
+            loader: 'url-loader',
             options: {
               limit: 8192
             }
@@ -46,8 +52,8 @@ module.exports = {
     }),
     new HtmlWebpackPlugin({
       inject: true,
-      template: "./public/index.html",
-      filename: "index.html"
+      template: './public/index.html',
+      filename: 'index.html'
     }),
     new webpack.HotModuleReplacementPlugin()
   ],
@@ -67,4 +73,4 @@ module.exports = {
   },
   devtool: 'cheap-module-source-map',
   mode: 'development'
-}
+};
