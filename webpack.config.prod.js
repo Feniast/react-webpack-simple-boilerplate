@@ -2,11 +2,14 @@ const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const utils = require('./config/utils');
 
 process.env.BABEL_ENV = 'production';
 process.env.NODE_ENV = 'production';
 
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
+const styleLoaders = utils.styleLoaders();
 
 module.exports = {
   entry: {
@@ -24,34 +27,16 @@ module.exports = {
         exclude: /node_modules/,
         use: 'babel-loader' 
       },
+      ...styleLoaders,
       {
-        test: /\.css$/,
+        test: /\.(jpe?g|png|gif)/,
         use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          {
-            loader: 'postcss-loader',
-            // set custom postcss plugin options here
-            /*
+          { 
+            loader: 'url-loader', 
             options: {
-              config: {
-                ctx: {
-                  cssnext: {},
-                  cssnano: {},
-                  autoprefixer: {}
-                }
-              }
-            } */
+              limit: 8192
+            }
           }
-        ]
-      },
-      {
-        test: /\.(scss|sass)$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 2 } },
-          'postcss-loader',
-          'sass-loader'
         ]
       }
     ]
@@ -67,6 +52,10 @@ module.exports = {
       inject: true,
       template: "./public/index.html",
       filename: "index.html"
+    }),
+    new MiniCssExtractPlugin({
+      filename: "[name].css",
+      chunkFilename: "[id].css"
     })
   ],
   devtool: shouldUseSourceMap ? 'source-map' : false,

@@ -1,9 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const utils = require('./config/utils');
 
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
+
+const styleLoaders = utils.styleLoaders();
 
 module.exports = {
   entry: {
@@ -21,21 +24,16 @@ module.exports = {
         exclude: /node_modules/,
         use: 'babel-loader' 
       },
+      ...styleLoaders,
       {
-        test: /\.css$/,
+        test: /\.(jpe?g|png|gif)/,
         use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 1 } },
-          'postcss-loader'
-        ]
-      },
-      {
-        test: /\.(scss|sass)$/,
-        use: [
-          'style-loader',
-          { loader: 'css-loader', options: { importLoaders: 2 } },
-          'postcss-loader',
-          'sass-loader'
+          { 
+            loader: 'url-loader', 
+            options: {
+              limit: 8192
+            }
+          }
         ]
       }
     ]
