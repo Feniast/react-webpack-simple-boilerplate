@@ -1,9 +1,11 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
 const isDev = process.env.NODE_ENV === 'development';
 
 function styleLoaders(options) {
   options = options || {};
-  const loaders = [{
+  const loaders = [
+    {
       test: /\.css$/,
       use: [
         isDev ? 'style-loader' : MiniCssExtractPlugin.loader,

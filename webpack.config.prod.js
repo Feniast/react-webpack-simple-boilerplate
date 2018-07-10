@@ -17,7 +17,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[hash:8].js',
+    filename: '[name].[chunkhash:8].js',
     publicPath: '/'
   },
   module: {
@@ -57,11 +57,23 @@ module.exports = {
     new HtmlWebpackPlugin({
       inject: true,
       template: './public/index.html',
-      filename: 'index.html'
+      filename: 'index.html',
+      minify: {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true,
+      },
     }),
     new MiniCssExtractPlugin({
-      filename: '[name].css',
-      chunkFilename: '[id].css'
+      filename: '[name].[contenthash:8].css',
+      chunkFilename: '[id].[contenthash:8].css'
     })
   ],
   devtool: shouldUseSourceMap ? 'source-map' : false,

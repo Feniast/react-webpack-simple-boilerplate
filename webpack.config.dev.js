@@ -14,7 +14,7 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[hash:8].js',
+    filename: '[name].js',
     publicPath: '/'
   },
   module: {
@@ -55,6 +55,7 @@ module.exports = {
       template: './public/index.html',
       filename: 'index.html'
     }),
+    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
   devServer: {
