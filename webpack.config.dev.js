@@ -3,9 +3,6 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const utils = require('./config/utils');
 
-process.env.BABEL_ENV = 'development';
-process.env.NODE_ENV = 'development';
-
 const styleLoaders = utils.styleLoaders();
 
 module.exports = {
@@ -55,9 +52,11 @@ module.exports = {
       template: './public/index.html',
       filename: 'index.html'
     }),
-    new webpack.NamedModulesPlugin(),
     new webpack.HotModuleReplacementPlugin()
   ],
+  optimization: {
+    namedModules: true
+  },
   devServer: {
     publicPath: '/',
     historyApiFallback: false,

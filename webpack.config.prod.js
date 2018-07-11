@@ -5,9 +5,6 @@ const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const utils = require('./config/utils');
 
-process.env.BABEL_ENV = 'production';
-process.env.NODE_ENV = 'production';
-
 const shouldUseSourceMap = process.env.GENERATE_SOURCEMAP !== 'false';
 const styleLoaders = utils.styleLoaders();
 
@@ -73,9 +70,16 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: '[name].[contenthash:8].css',
-      chunkFilename: '[id].[contenthash:8].css'
+      chunkFilename: '[name].[contenthash:8].css'
     })
   ],
+  optimization: {
+    noEmitOnErrors: true,
+    concatenateModules: true,
+    runtimeChunk: {
+      name: 'manifest'
+    }
+  },
   devtool: shouldUseSourceMap ? 'source-map' : false,
   mode: 'production'
 };
