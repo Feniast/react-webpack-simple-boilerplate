@@ -1,5 +1,6 @@
 import React from 'react';
 import logo from '../assets/logo.svg';
+import Router from './Router';
 
 const hello = async () => {
   await new Promise((resolve) => {
@@ -24,6 +25,7 @@ export default class App extends React.Component {
       <div>
         <h1>{message}</h1>
         <img src={logo} alt="react" />
+        <Router />
       </div>
     );
   }
