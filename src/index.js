@@ -5,7 +5,7 @@ import logo from './assets/logo.svg';
 
 const hello = async () => {
   await new Promise((resolve) => {
-    setTimeout(() => resolve(), 1000);
+    setTimeout(() => resolve(1), 1000);
   });
 };
 
