@@ -59,7 +59,7 @@ module.exports = {
   },
   devServer: {
     publicPath: '/',
-    historyApiFallback: false,
+    historyApiFallback: true,
     contentBase: './public',
     compress: true,
     watchContentBase: true,

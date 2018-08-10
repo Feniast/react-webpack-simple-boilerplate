@@ -12,7 +12,9 @@ function styleLoaders(options) {
         {
           loader: 'css-loader',
           options: Object.assign({}, options['css-loader'], {
-            importLoaders: 1
+            importLoaders: 1,
+            modules: true,
+            localIdentName: '[name]__[local]--[hash:base64:5]'
           })
         },
         {
@@ -28,7 +30,9 @@ function styleLoaders(options) {
         {
           loader: 'css-loader',
           options: Object.assign({}, options['css-loader'], {
-            importLoaders: 2
+            importLoaders: 2,
+            modules: true,
+            localIdentName: '[name]__[local]--[hash:base64:5]'
           })
         },
         {
